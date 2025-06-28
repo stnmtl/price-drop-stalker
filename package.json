@@ -1,8 +1,21 @@
 {
   "name": "price-drop-stalker",
   "version": "1.0.0",
+  "description": "Price tracking and alerts for online shopping",
+  "main": "index.js",
   "dependencies": {
     "stripe": "^14.0.0",
     "firebase-admin": "^11.0.0"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "price-tracking",
+    "chrome-extension",
+    "stripe",
+    "firebase"
+  ],
+  "author": "Price Drop Stalker",
+  "license": "MIT"
 }
