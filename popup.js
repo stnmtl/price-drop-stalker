@@ -464,28 +464,28 @@ function showSuccess(message) {
     }
 }
 
-// External link functions
+// External link functions - Updated with your actual Netlify URL
 function showUpgrade() {
     chrome.tabs.create({
-        url: 'https://your-netlify-url.netlify.app/dashboard.html'
+        url: 'https://price-drop-stalker.netlify.app/dashboard.html'
     });
 }
 
 function openDashboard() {
     chrome.tabs.create({
-        url: 'https://your-netlify-url.netlify.app/dashboard.html'
+        url: 'https://price-drop-stalker.netlify.app/dashboard.html'
     });
 }
 
 function openSettings() {
     chrome.tabs.create({
-        url: 'https://your-netlify-url.netlify.app/settings.html'
+        url: 'https://price-drop-stalker.netlify.app/settings.html'
     });
 }
 
 function openHelp() {
     chrome.tabs.create({
-        url: 'https://your-netlify-url.netlify.app/help'
+        url: 'https://price-drop-stalker.netlify.app/dashboard.html'
     });
 }
 
