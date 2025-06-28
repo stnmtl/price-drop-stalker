@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 350px;
+            min-height: 400px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .tagline {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .track-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .current-page {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .product-icon {
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .track-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .track-btn:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+        
+        .track-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .tracked-items {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .tracked-items::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .tracked-items::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        
+        .tracked-items::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+        
+        .tracked-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4CAF50;
+            transition: all 0.3s;
+        }
+        
+        .tracked-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .item-details {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .item-name {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .item-price {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .price-change {
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        
+        .price-down {
+            color: #4CAF50;
+        }
+        
+        .price-up {
+            color: #ff6b6b;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-btn {
+            width: 20px;
+            height: 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .remove-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .remove-btn:hover {
+            background: #ff5252;
+        }
+        
+        .stats-section {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+        
+        .upgrade-section {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .upgrade-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .upgrade-desc {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .upgrade-btn {
+            background: white;
+            color: #333;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upgrade-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .footer {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 11px;
+            opacity: 0.7;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .footer-link:hover {
+            opacity: 1;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            opacity: 0.7;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .empty-text {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .empty-subtext {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .success-message {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .free-limit-warning {
+            background: rgba(255, 235, 59, 0.2);
+            border: 1px solid rgba(255, 235, 59, 0.5);
+            color: #FFF59D;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">💰 Price Drop Stalker</div>
+        <div class="tagline">Smart price tracking & alerts</div>
+    </div>
+    
+    <div class="main-content">
+        <!-- Loading State -->
+        <div id="loading-state" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <div>Loading...</div>
+        </div>
+        
+        <!-- Error/Success Messages -->
+        <div id="error-message" class="error-message" style="display: none;"></div>
+        <div id="success-message" class="success-message" style="display: none;"></div>
+        
+        <!-- Current Page Product Detection -->
+        <div id="track-section" class="track-section">
+            <div class="current-page">
+                <div class="product-icon" id="product-icon">🛍️</div>
+                <div class="product-info">
+                    <div class="product-name" id="product-name">Detecting product...</div>
+                    <div class="product-price" id="product-price">$0.00</div>
+                </div>
+            </div>
+            <button class="track-btn" id="track-btn">
+                🎯 Track This Product
+            </button>
+            <div id="free-limit-warning" class="free-limit-warning" style="display: none;">
+                Free plan: <span id="items-count">0</span>/5 items tracked
+            </div>
+        </div>
+        
+        <!-- User Stats -->
+        <div class="stats-section">
+            <div>Your Savings Dashboard</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-value" id="total-saved">$0</span>
+                    <span class="stat-label">Total Saved</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="items-tracking">0</span>
+                    <span class="stat-label">Items Tracking</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tracked Items List -->
+        <div id="tracked-items" class="tracked-items">
+            <!-- Items will be populated by JavaScript -->
+        </div>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <div class="empty-icon">📦</div>
+            <div class="empty-text">No items tracked yet</div>
+            <div class="empty-subtext">Visit a product page and start tracking!</div>
+        </div>
+        
+        <!-- Upgrade Prompt for Free Users -->
+        <div id="upgrade-section" class="upgrade-section" style="display: none;">
+            <div class="upgrade-title">🚀 Upgrade from $1.99/mo</div>
+            <div class="upgrade-desc">Unlimited tracking + Price predictions + Multi-store comparison</div>
+            <button class="upgrade-btn">Upgrade Now</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-links">
+            <a href="#" class="footer-link">Dashboard</a>
+            <a href="#" class="footer-link">Settings</a>
+            <a href="#" class="footer-link">Help</a>
+        </div>
+    </div>
+
+    <!-- Load external JavaScript file -->
+    <script src="popup.js"></script>
+</body>
+</html>

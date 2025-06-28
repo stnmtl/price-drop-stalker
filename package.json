@@ -1,0 +1,8 @@
+{
+  "name": "price-drop-stalker",
+  "version": "1.0.0",
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "firebase-admin": "^11.0.0"
+  }
+}

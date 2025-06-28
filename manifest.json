@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "Price Drop Stalker",
+  "version": "1.0.1",
+  "description": "Smart price tracking and alerts for online shopping. Never overpay again!",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "notifications",
+    "tabs",
+    "alarms",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://amazon.com/*",
+    "https://www.amazon.com/*",
+    "https://ebay.com/*",
+    "https://www.ebay.com/*",
+    "https://bestbuy.com/*",
+    "https://www.bestbuy.com/*",
+    "https://target.com/*",
+    "https://www.target.com/*",
+    "https://walmart.com/*",
+    "https://www.walmart.com/*",
+    "https://api.apify.com/*",
+    "https://*.netlify.app/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Price Drop Stalker"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://amazon.com/*",
+        "https://www.amazon.com/*",
+        "https://ebay.com/*",
+        "https://www.ebay.com/*",
+        "https://bestbuy.com/*",
+        "https://www.bestbuy.com/*",
+        "https://target.com/*",
+        "https://www.target.com/*",
+        "https://walmart.com/*",
+        "https://www.walmart.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
