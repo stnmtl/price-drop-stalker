@@ -396,37 +396,6 @@
             font-size: 10px;
         }
         
-        .success {
-            background: #d4edda;
-            color: #155724;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 18px;
-        }
-        
-        .links {
-            text-align: center;
-            margin-top: 30px;
-        }
-        
-        .link {
-            display: inline-block;
-            margin: 0 15px;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        
-        .link:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-        
         /* Payment Modal Styles */
         .payment-modal {
             position: fixed;
@@ -545,158 +514,306 @@
 
     <div class="container">
         <div class="dashboard-header">
-            <h1 class="dashboard-title">Dashboard</h1>
-            <p class="dashboard-subtitle">Your Price Drop Stalker backend is working!</p>
+            <h1 class="dashboard-title">Your Dashboard</h1>
+            <p class="dashboard-subtitle">Track prices, save money, shop smarter</p>
         </div>
 
-        <!-- Success Message -->
-        <div class="success">
-            ✅ Congratulations! Your Netlify deployment is successful.
+        <!-- Loading State -->
+        <div id="loading-state" class="loading">
+            <div class="spinner"></div>
+            <p>Loading your dashboard...</p>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-value" id="total-saved">$0</div>
-                <div class="stat-label">Total Saved</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📦</div>
-                <div class="stat-value" id="items-tracked">0</div>
-                <div class="stat-label">Items Tracked</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🔔</div>
-                <div class="stat-value" id="alerts-sent">0</div>
-                <div class="stat-label">Alerts Sent</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📈</div>
-                <div class="stat-value" id="avg-savings">0%</div>
-                <div class="stat-label">Avg Savings</div>
-            </div>
-        </div>
-
-        <!-- Main Content Grid -->
-        <div class="content-grid">
-            <!-- Main Content -->
-            <div class="main-content">
-                <h2 class="section-title">🎯 Next Steps:</h2>
-                
-                <ol style="font-size: 16px; line-height: 1.8; margin-bottom: 30px;">
-                    <li><strong>Configure Stripe Webhook</strong> - Point it to your functions</li>
-                    <li><strong>Add Environment Variables</strong> - Your API keys in Netlify ✅</li>
-                    <li><strong>Update Chrome Extension</strong> - Point popup to this URL</li>
-                    <li><strong>Test Payment Flow</strong> - Create account and test upgrade</li>
-                </ol>
-
-                <h2 class="section-title">🔧 Function Status:</h2>
-                <ul style="font-size: 16px; line-height: 1.8;">
-                    <li>✅ Static files deployed</li>
-                    <li>✅ Functions: Deployed</li>
-                    <li id="webhook-status">🔄 Stripe webhook: <span id="webhookStatus">Testing...</span></li>
-                </ul>
-
-                <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                    <h3>🚀 Your Deployment URLs:</h3>
-                    <ul style="list-style: none; margin-top: 15px;">
-                        <li style="margin: 10px 0;"><strong>Dashboard:</strong> <code>https://price-drop-stalker.netlify.app/dashboard.html</code></li>
-                        <li style="margin: 10px 0;"><strong>Login:</strong> <code>https://price-drop-stalker.netlify.app/login.html</code></li>
-                        <li style="margin: 10px 0;"><strong>Webhook:</strong> <code>https://price-drop-stalker.netlify.app/.netlify/functions/stripe-webhook</code></li>
-                    </ul>
+        <!-- Dashboard Content -->
+        <div id="dashboard-content" style="display: block;">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value" id="total-saved">$0</div>
+                    <div class="stat-label">Total Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-value" id="items-tracked">0</div>
+                    <div class="stat-label">Items Tracked</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔔</div>
+                    <div class="stat-value" id="alerts-sent">0</div>
+                    <div class="stat-label">Alerts Sent</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value" id="avg-savings">0%</div>
+                    <div class="stat-label">Avg Savings</div>
                 </div>
             </div>
 
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Pricing Card -->
-                <div class="sidebar-card">
-                    <div class="pricing-card">
-                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 15px; text-align: center;">Choose Your Plan</div>
-                        
-                        <!-- Pro Monthly -->
-                        <div class="pricing-plan plan-pro">
-                            <div class="plan-title" style="color: #667eea;">Pro Monthly</div>
-                            <div class="plan-price" style="color: #667eea;">$1.99<span style="font-size: 14px;">/mo</span></div>
-                            <ul class="plan-features">
-                                <li>Track up to 25 products</li>
-                                <li>Hourly price checks</li>
-                                <li>Email alerts</li>
-                            </ul>
-                            <button class="cta-btn" onclick="alert('Payment system is ready! Connect your Stripe webhook to enable payments.')" style="font-size: 12px; padding: 8px 16px; width: 100%;">
-                                Choose Pro
-                            </button>
+            <!-- Main Content Grid -->
+            <div class="content-grid">
+                <!-- Tracked Items -->
+                <div class="main-content">
+                    <h2 class="section-title">
+                        🎯 Tracked Items
+                        <span id="plan-badge" class="pro-badge" style="display: none;">PRO</span>
+                    </h2>
+                    
+                    <div id="tracked-items-list">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="empty-state" class="empty-state">
+                        <div class="empty-icon">📦</div>
+                        <div class="empty-text">No items tracked yet</div>
+                        <div class="empty-subtext">
+                            Install the Chrome extension and start tracking prices
                         </div>
-                        
-                        <!-- Premium Monthly -->
-                        <div class="pricing-plan plan-premium">
-                            <div class="plan-title" style="color: #ff6b6b;">Premium Monthly</div>
-                            <div class="plan-price" style="color: #ff6b6b;">$4.99<span style="font-size: 14px;">/mo</span></div>
-                            <ul class="plan-features">
-                                <li>Unlimited tracking</li>
-                                <li>30-minute price checks</li>
-                                <li>Price predictions</li>
-                                <li>Multi-store comparison</li>
-                                <li>Priority support</li>
-                            </ul>
-                            <button class="cta-btn" onclick="alert('Payment system is ready! Connect your Stripe webhook to enable payments.')" style="font-size: 12px; padding: 8px 16px; width: 100%; background: linear-gradient(45deg, #ff6b6b, #ee5a52);">
-                                Choose Premium
-                            </button>
-                        </div>
-                        
-                        <!-- Lifetime -->
-                        <div class="pricing-plan plan-lifetime">
-                            <div class="best-value-badge">BEST VALUE</div>
-                            <div class="plan-title" style="color: #28a745;">Full Lifetime License</div>
-                            <div class="plan-price" style="color: #28a745;">$25.00<span style="font-size: 14px;"> once</span></div>
-                            <ul class="plan-features">
-                                <li>Everything in Premium</li>
-                                <li>Lifetime updates</li>
-                                <li>No monthly fees</li>
-                                <li>Advanced analytics</li>
-                            </ul>
-                            <button class="cta-btn" onclick="alert('Payment system is ready! Connect your Stripe webhook to enable payments.')" style="font-size: 12px; padding: 8px 16px; width: 100%; background: linear-gradient(45deg, #28a745, #20c997);">
-                                Buy Lifetime
-                            </button>
-                        </div>
+                        <button class="cta-btn" onclick="window.open('https://chrome.google.com/webstore', '_blank')">
+                            Get Chrome Extension
+                        </button>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
-                <div class="sidebar-card">
-                    <h3 class="section-title">🔗 Quick Links</h3>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <a href="login.html" class="action-btn btn-primary" style="text-decoration: none; text-align: center;">Login Page</a>
-                        <a href="settings.html" class="action-btn btn-secondary" style="text-decoration: none; text-align: center;">Settings</a>
-                        <a href="/.netlify/functions/stripe-webhook" target="_blank" class="action-btn btn-secondary" style="text-decoration: none; text-align: center;">Test Webhook</a>
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Pricing Card -->
+                    <div class="sidebar-card" id="pricing-card">
+                        <div class="pricing-card">
+                            <div style="font-size: 18px; font-weight: bold; margin-bottom: 15px; text-align: center;">Choose Your Plan</div>
+                            
+                            <!-- Pro Monthly -->
+                            <div class="pricing-plan plan-pro">
+                                <div class="plan-title" style="color: #667eea;">Pro Monthly</div>
+                                <div class="plan-price" style="color: #667eea;">$1.99<span style="font-size: 14px;">/mo</span></div>
+                                <ul class="plan-features">
+                                    <li>Track up to 25 products</li>
+                                    <li>Hourly price checks</li>
+                                    <li>Email alerts</li>
+                                </ul>
+                                <button class="cta-btn" onclick="upgradeToProDialog('pro-monthly')" style="font-size: 12px; padding: 8px 16px; width: 100%;">
+                                    Choose Pro
+                                </button>
+                            </div>
+                            
+                            <!-- Premium Monthly -->
+                            <div class="pricing-plan plan-premium">
+                                <div class="plan-title" style="color: #ff6b6b;">Premium Monthly</div>
+                                <div class="plan-price" style="color: #ff6b6b;">$4.99<span style="font-size: 14px;">/mo</span></div>
+                                <ul class="plan-features">
+                                    <li>Unlimited tracking</li>
+                                    <li>30-minute price checks</li>
+                                    <li>Price predictions</li>
+                                    <li>Multi-store comparison</li>
+                                    <li>Priority support</li>
+                                </ul>
+                                <button class="cta-btn" onclick="upgradeToProDialog('premium-monthly')" style="font-size: 12px; padding: 8px 16px; width: 100%; background: linear-gradient(45deg, #ff6b6b, #ee5a52);">
+                                    Choose Premium
+                                </button>
+                            </div>
+                            
+                            <!-- Lifetime -->
+                            <div class="pricing-plan plan-lifetime">
+                                <div class="best-value-badge">BEST VALUE</div>
+                                <div class="plan-title" style="color: #28a745;">Full Lifetime License</div>
+                                <div class="plan-price" style="color: #28a745;">$25.00<span style="font-size: 14px;"> once</span></div>
+                                <ul class="plan-features">
+                                    <li>Everything in Premium</li>
+                                    <li>Lifetime updates</li>
+                                    <li>No monthly fees</li>
+                                    <li>Advanced analytics</li>
+                                </ul>
+                                <button class="cta-btn" onclick="upgradeToProDialog('lifetime')" style="font-size: 12px; padding: 8px 16px; width: 100%; background: linear-gradient(45deg, #28a745, #20c997);">
+                                    Buy Lifetime
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="sidebar-card">
+                        <h3 class="section-title">📊 Recent Activity</h3>
+                        <div id="recent-activity">
+                            <div style="color: #666; font-size: 14px; text-align: center; padding: 20px;">
+                                No recent activity yet. Start tracking some products!
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Test function endpoints with correct logic
-        fetch('/.netlify/functions/stripe-webhook')
-            .then(response => response.json())
-            .then(data => {
-                console.log('Webhook response:', data);
-                if (data.status && (data.status.includes('working') || data.status.includes('Working'))) {
-                    document.getElementById('webhookStatus').textContent = '✅ Working';
-                    document.getElementById('webhookStatus').style.color = '#28a745';
-                } else {
-                    document.getElementById('webhookStatus').textContent = '⚠️ Unknown response';
-                    document.getElementById('webhookStatus').style.color = '#ffc107';
-                }
-            })
-            .catch(error => {
-                console.error('Webhook test error:', error);
-                document.getElementById('webhookStatus').textContent = '❌ Error';
-                document.getElementById('webhookStatus').style.color = '#dc3545';
-            });
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">Upgrade to Pro</div>
+                <div class="modal-subtitle" id="modal-subtitle">Complete your payment</div>
+            </div>
+            <div id="card-element" class="card-element">
+                <!-- Stripe Elements will create form elements here -->
+            </div>
+            <div class="payment-actions">
+                <button class="modal-btn btn-cancel" onclick="closePaymentModal()">
+                    Cancel
+                </button>
+                <button class="modal-btn btn-pay" id="submit-payment">
+                    Pay Now
+                </button>
+            </div>
+        </div>
+    </div>
 
-        console.log('✅ Dashboard loaded - Backend deployment successful!');
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmiK92S8Y5eQAh29z17D9A2UOIcPXHGeo",
+            authDomain: "pricedropstalker-e1061.firebaseapp.com",
+            projectId: "pricedropstalker-e1061",
+            storageBucket: "pricedropstalker-e1061.firebasestorage.app",
+            messagingSenderId: "82963303796",
+            appId: "1:82963303796:web:ecbeabcf3f0de1990df021",
+            measurementId: "G-8LSH634T7D"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Initialize Stripe with LIVE key
+        const stripe = Stripe('pk_live_jlbln37CCXa6kDjSiuYqplmD00dmRrciyT');
+
+        // Global variables
+        let currentUser = null;
+        let userPlan = 'free';
+        let trackedItems = [];
+        let selectedPlan = null;
+
+        // Authentication check
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                loadDashboard();
+            } else {
+                // For demo purposes, continue without login
+                console.log('No user logged in - showing demo dashboard');
+                hideLoading();
+            }
+        });
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                document.getElementById('user-email').textContent = currentUser.email;
+
+                // Load user data from Firestore
+                const userDoc = await db.collection('users').doc(currentUser.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    userPlan = userData.plan || 'free';
+                    trackedItems = userData.trackedItems || [];
+                    
+                    updateDashboard(userData);
+                }
+
+                hideLoading();
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                hideLoading();
+            }
+        }
+
+        // Hide loading state
+        function hideLoading() {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('dashboard-content').style.display = 'block';
+        }
+
+        // Update dashboard UI
+        function updateDashboard(userData) {
+            if (userData && userData.plan !== 'free') {
+                const planBadge = document.getElementById('plan-badge');
+                planBadge.style.display = 'inline-block';
+                planBadge.textContent = userData.plan.toUpperCase();
+                
+                const upgradeBtn = document.getElementById('upgrade-btn');
+                upgradeBtn.style.display = 'none';
+            }
+        }
+
+        // Upgrade dialog
+        function upgradeToProDialog(planType) {
+            selectedPlan = planType;
+            
+            const modal = document.getElementById('payment-modal');
+            const title = document.getElementById('modal-title');
+            const subtitle = document.getElementById('modal-subtitle');
+            
+            if (planType === 'lifetime') {
+                title.textContent = 'Lifetime License - $25.00';
+                subtitle.textContent = 'One-time payment, lifetime access';
+            } else if (planType === 'premium-monthly') {
+                title.textContent = 'Premium Monthly - $4.99';
+                subtitle.textContent = 'Unlimited tracking + advanced features';
+            } else {
+                title.textContent = 'Pro Monthly - $1.99';
+                subtitle.textContent = 'Up to 25 products + hourly checks';
+            }
+            
+            modal.style.display = 'block';
+            setupStripeElements();
+        }
+
+        // Setup Stripe Elements
+        let cardElement;
+        function setupStripeElements() {
+            const elements = stripe.elements();
+            
+            if (cardElement) {
+                cardElement.destroy();
+            }
+            
+            cardElement = elements.create('card', {
+                style: {
+                    base: {
+                        fontSize: '16px',
+                        color: '#424770',
+                        '::placeholder': {
+                            color: '#aab7c4',
+                        },
+                    },
+                },
+            });
+            
+            cardElement.mount('#card-element');
+            
+            // Setup payment button
+            document.getElementById('submit-payment').onclick = handlePayment;
+        }
+
+        // Handle payment
+        async function handlePayment() {
+            alert('Payment system is ready! Connect your Stripe webhook to enable payments.');
+        }
+
+        // Close payment modal
+        function closePaymentModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+            if (cardElement) {
+                cardElement.clear();
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            hideLoading();
+        });
+
+        console.log('Dashboard loaded');
     </script>
 </body>
 </html>
