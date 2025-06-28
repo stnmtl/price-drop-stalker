@@ -350,9 +350,9 @@ async function updateItemPrice(itemId, newPrice, priceChange) {
 async function sendPriceDropNotification(item, newPrice, percentChange) {
   const notificationOptions = {
     type: 'basic',
-    iconUrl: chrome.runtime.getURL('icons/icon48.png') || '/icon.png',
+    iconUrl: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8l-4 4-4-4"></path></svg>',
     title: '💰 Price Drop Alert!',
-    message: `${item.name.substring(0, 50)}... dropped ${Math.abs(percentChange)}% to ${newPrice.toFixed(2)}`,
+    message: `${item.name.substring(0, 50)}... dropped ${Math.abs(percentChange)}% to $${newPrice.toFixed(2)}`,
     buttons: [
       { title: 'View Deal' },
       { title: 'Stop Tracking' }
@@ -514,7 +514,7 @@ async function handleTrackProduct(productData) {
   try {
     chrome.notifications.create({
       type: 'basic',
-      iconUrl: chrome.runtime.getURL('icons/icon48.png') || '/icon.png',
+      iconUrl: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>',
       title: 'Price Drop Stalker',
       message: `Now tracking: ${productData.name.substring(0, 60)}...`
     });
