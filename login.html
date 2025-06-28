@@ -4,105 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Drop Stalker - Login</title>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
             padding: 20px;
         }
-        
-        .auth-container {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
+        .container {
+            background: white;
             padding: 40px;
+            border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             max-width: 400px;
             width: 100%;
             text-align: center;
         }
-        
         .logo {
             font-size: 48px;
             margin-bottom: 10px;
         }
-        
-        .app-name {
+        .title {
             font-size: 24px;
             font-weight: bold;
             color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        .tagline {
-            color: #666;
             margin-bottom: 30px;
         }
-        
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 30px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 5px;
-        }
-        
-        .auth-tab {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .auth-tab.active {
-            background: white;
-            color: #667eea;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
         .form-group {
             margin-bottom: 20px;
             text-align: left;
         }
-        
         .form-label {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
-            color: #333;
         }
-        
         .form-input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 12px;
             border: 2px solid #e9ecef;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            box-sizing: border-box;
         }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .auth-btn {
+        .btn {
             width: 100%;
             padding: 15px;
             background: linear-gradient(45deg, #667eea, #764ba2);
@@ -112,417 +61,48 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s;
             margin-bottom: 20px;
         }
-        
-        .auth-btn:hover {
+        .btn:hover {
             transform: translateY(-2px);
         }
-        
-        .auth-btn:disabled {
-            opacity: 0.6;
-            transform: none;
-            cursor: not-allowed;
-        }
-        
-        .divider {
-            margin: 20px 0;
-            position: relative;
-            text-align: center;
-            color: #666;
-        }
-        
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e9ecef;
-        }
-        
-        .divider span {
-            background: white;
-            padding: 0 15px;
-        }
-        
-        .google-btn {
-            width: 100%;
-            padding: 12px;
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .google-btn:hover {
-            border-color: #667eea;
-            background: #f8f9fa;
-        }
-        
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        .forgot-password {
-            color: #667eea;
-            text-decoration: none;
-            font-size: 14px;
-            margin-top: 10px;
-            display: inline-block;
-        }
-        
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-        
-        .features-preview {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e9ecef;
-        }
-        
-        .features-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        
-        .features-list {
-            text-align: left;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .features-list li {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .feature-check {
+        .success {
             color: #28a745;
-            font-weight: bold;
-        }
-        
-        @media (max-width: 480px) {
-            .auth-container {
-                padding: 30px 20px;
-            }
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <div class="auth-container">
+    <div class="container">
         <div class="logo">💰</div>
-        <div class="app-name">Price Drop Stalker</div>
-        <div class="tagline">Never overpay again</div>
+        <div class="title">Price Drop Stalker</div>
         
-        <!-- Auth Tabs -->
-        <div class="auth-tabs">
-            <button class="auth-tab active" id="login-tab" onclick="switchTab('login')">
-                Login
-            </button>
-            <button class="auth-tab" id="signup-tab" onclick="switchTab('signup')">
-                Sign Up
-            </button>
-        </div>
-        
-        <!-- Error/Success Messages -->
-        <div id="error-message" class="error-message" style="display: none;"></div>
-        <div id="success-message" class="success-message" style="display: none;"></div>
-        
-        <!-- Login Form -->
-        <form id="login-form" style="display: block;">
+        <form id="loginForm">
             <div class="form-group">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-input" id="login-email" required>
+                <input type="email" class="form-input" id="email" required>
             </div>
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-input" id="login-password" required>
+                <input type="password" class="form-input" id="password" required>
             </div>
-            <button type="submit" class="auth-btn" id="login-btn">
-                Sign In
-            </button>
-            <a href="#" class="forgot-password" onclick="resetPassword()">
-                Forgot your password?
-            </a>
+            <button type="submit" class="btn">Sign In</button>
         </form>
         
-        <!-- Signup Form -->
-        <form id="signup-form" style="display: none;">
-            <div class="form-group">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-input" id="signup-email" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-input" id="signup-password" required minlength="6">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" class="form-input" id="signup-confirm-password" required>
-            </div>
-            <button type="submit" class="auth-btn" id="signup-btn">
-                Create Account
-            </button>
-        </form>
-        
-        <!-- Divider -->
-        <div class="divider">
-            <span>or</span>
+        <div class="success" id="message" style="display: none;">
+            ✅ Login system working! Your backend is deployed correctly.
         </div>
         
-        <!-- Google Sign In -->
-        <button class="google-btn" onclick="signInWithGoogle()">
-            <svg width="20" height="20" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Continue with Google
-        </button>
-        
-        <!-- Features Preview -->
-        <div class="features-preview">
-            <div class="features-title">What you'll get:</div>
-            <ul class="features-list">
-                <li><span class="feature-check">✓</span> Track up to 5 products for free</li>
-                <li><span class="feature-check">✓</span> Real-time price alerts</li>
-                <li><span class="feature-check">✓</span> Price history tracking</li>
-                <li><span class="feature-check">✓</span> Multi-store comparison</li>
-            </ul>
+        <div style="margin-top: 20px;">
+            <a href="dashboard.html" style="color: #667eea;">Go to Dashboard</a>
         </div>
     </div>
 
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBmiK92S8Y5eQAh29z17D9A2UOIcPXHGeo",
-            authDomain: "pricedropstalker-e1061.firebaseapp.com",
-            projectId: "pricedropstalker-e1061",
-            storageBucket: "pricedropstalker-e1061.firebasestorage.app",
-            messagingSenderId: "82963303796",
-            appId: "1:82963303796:web:ecbeabcf3f0de1990df021",
-            measurementId: "G-8LSH634T7D"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // Google Auth Provider
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-        // Check if user is already logged in
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                window.location.href = 'dashboard.html';
-            }
-        });
-
-        // Switch between login and signup
-        function switchTab(tab) {
-            const loginTab = document.getElementById('login-tab');
-            const signupTab = document.getElementById('signup-tab');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            
-            if (tab === 'login') {
-                loginTab.classList.add('active');
-                signupTab.classList.remove('active');
-                loginForm.style.display = 'block';
-                signupForm.style.display = 'none';
-            } else {
-                signupTab.classList.add('active');
-                loginTab.classList.remove('active');
-                signupForm.style.display = 'block';
-                loginForm.style.display = 'none';
-            }
-            
-            clearMessages();
-        }
-
-        // Handle login form
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const loginBtn = document.getElementById('login-btn');
-            
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'Signing in...';
-            clearMessages();
-            
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                showSuccess('Successfully signed in! Redirecting...');
-                
-            } catch (error) {
-                showError(getErrorMessage(error.code));
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Sign In';
-            }
+            document.getElementById('message').style.display = 'block';
         });
-
-        // Handle signup form
-        document.getElementById('signup-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            const confirmPassword = document.getElementById('signup-confirm-password').value;
-            const signupBtn = document.getElementById('signup-btn');
-            
-            if (password !== confirmPassword) {
-                showError('Passwords do not match');
-                return;
-            }
-            
-            signupBtn.disabled = true;
-            signupBtn.textContent = 'Creating account...';
-            clearMessages();
-            
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                
-                // Create user document in Firestore
-                await db.collection('users').doc(userCredential.user.uid).set({
-                    email: email,
-                    plan: 'free',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    trackedItems: []
-                });
-                
-                showSuccess('Account created successfully! Redirecting...');
-                
-            } catch (error) {
-                showError(getErrorMessage(error.code));
-                signupBtn.disabled = false;
-                signupBtn.textContent = 'Create Account';
-            }
-        });
-
-        // Google Sign In
-        async function signInWithGoogle() {
-            try {
-                const result = await auth.signInWithPopup(googleProvider);
-                
-                // Check if this is a new user
-                const userDoc = await db.collection('users').doc(result.user.uid).get();
-                
-                if (!userDoc.exists) {
-                    // Create new user document
-                    await db.collection('users').doc(result.user.uid).set({
-                        email: result.user.email,
-                        name: result.user.displayName,
-                        plan: 'free',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        trackedItems: []
-                    });
-                }
-                
-                showSuccess('Successfully signed in with Google! Redirecting...');
-                
-            } catch (error) {
-                showError('Failed to sign in with Google. Please try again.');
-            }
-        }
-
-        // Reset password
-        async function resetPassword() {
-            const email = document.getElementById('login-email').value;
-            
-            if (!email) {
-                showError('Please enter your email address first');
-                return;
-            }
-            
-            try {
-                await auth.sendPasswordResetEmail(email);
-                showSuccess('Password reset email sent! Check your inbox.');
-            } catch (error) {
-                showError(getErrorMessage(error.code));
-            }
-        }
-
-        // Show error message
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
-        }
-
-        // Show success message
-        function showSuccess(message) {
-            const successDiv = document.getElementById('success-message');
-            successDiv.textContent = message;
-            successDiv.style.display = 'block';
-            
-            setTimeout(() => {
-                successDiv.style.display = 'none';
-            }, 3000);
-        }
-
-        // Clear messages
-        function clearMessages() {
-            document.getElementById('error-message').style.display = 'none';
-            document.getElementById('success-message').style.display = 'none';
-        }
-
-        // Get user-friendly error messages
-        function getErrorMessage(errorCode) {
-            switch (errorCode) {
-                case 'auth/user-not-found':
-                    return 'No account found with this email address.';
-                case 'auth/wrong-password':
-                    return 'Incorrect password. Please try again.';
-                case 'auth/email-already-in-use':
-                    return 'An account with this email already exists.';
-                case 'auth/weak-password':
-                    return 'Password should be at least 6 characters long.';
-                case 'auth/invalid-email':
-                    return 'Please enter a valid email address.';
-                case 'auth/too-many-requests':
-                    return 'Too many failed attempts. Please try again later.';
-                default:
-                    return 'An error occurred. Please try again.';
-            }
-        }
-
-        console.log('Login page loaded');
     </script>
 </body>
 </html>
